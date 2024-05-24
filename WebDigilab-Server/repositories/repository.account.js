@@ -1,7 +1,6 @@
 require('dotenv').config();
 const { Pool } = require('pg');
 const bcrypt = require("bcrypt")
-const saltRounds = 10
 
 const pool = new Pool({
     user: process.env.PGUSER,
@@ -27,17 +26,16 @@ function validateUser(hash) {
       .catch(err => console.error(err.message))        
 }
 
+async function hashPassword(password){
+    const saltRounds = 10; 
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    return hashedPassword;
+}
+
 async function createAccountAslab(req,res) {
     const {aslab_name, aslab_npm, aslab_profile_picture, aslab_bio, aslab_email, aslab_password} = req.body;
 
-    var hashed_password;
-
-    bcrypt
-    .hash(aslab_password, saltRounds)
-    .then(hash => {
-        hashed_password = hash;
-    })
-    .catch(err => console.error(err.message))
+    const hashed_password = hashPassword(aslab_password);
 
     try {
 
@@ -79,6 +77,40 @@ async function createAccountAslab(req,res) {
     }
 }
 
+async function createAccountPraktikan(req, res){
+    try {
+        const { username, npm, bio, email, password } = req.body;
+        const hashedPassword = await hashPassword(password);
+        const checkNpm = await pool.query(
+            'SELECT * FROM praktikan WHERE praktikan_npm = $1', 
+            [npm]
+        );
+        if(checkNpm.rowCount !==0){
+            return res.status(400).json({
+                error: "NPM sudah terdaftar"
+            });
+        }
+        const checkEmail = await pool.query(
+            'SELECT * FROM praktikan WHERE praktikan_email = $1', 
+            [email]
+        );
+        if(checkEmail.rowCount !==0){
+            return res.status(400).json({
+                error: "Email sudah terdaftar"
+            });
+        }
+        const result = await pool.query(
+            'INSERT INTO praktikan (praktikan_name, praktikan_npm, praktikan_bio, praktikan_email, praktikan_password) VALUES ($1, $2, $3, $4, $5) RETURNING id',
+            [username, npm, bio, email, hashedPassword]
+        );
+        res.status(201).json(result);
+    } catch (error) {
+        //console.log(error);
+        res.status(500).json(error);
+    }
+};
+
 module.exports = {
-    createAccountAslab
+    createAccountAslab,
+    createAccountPraktikan
 }

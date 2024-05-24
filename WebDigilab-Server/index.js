@@ -13,6 +13,7 @@ app.use(express.urlencoded({extended: true}));
 // Endpoint
 
 app.post('/createAccountAslab', accountRepo.createAccountAslab);
+app.post('/createAccountPraktikan', accountRepo.createAccountPraktikan);
 
 app.listen(port, () => {
     console.log("Server is running and listening on port ", port);
