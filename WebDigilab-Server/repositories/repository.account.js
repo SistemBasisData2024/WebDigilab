@@ -17,25 +17,23 @@ pool.connect().then(() => {
     console.log("Connected to PostgreSQL database");
 });
 
-function validateUser(hash) {
-    bcrypt
-      .compare("evan", hash)
-      .then(res => {
-        console.log(res) // return true
-      })
-      .catch(err => console.error(err.message))        
+async function validateUser(password, hashedPassword) {
+    const result = await bcrypt.compare(password, hashedPassword);
+    return result;
 }
 
 async function hashPassword(password){
+    //console.log("Password to hash:", password);
     const saltRounds = 10; 
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     return hashedPassword;
 }
 
 async function createAccountAslab(req,res) {
+    //console.log("Request body:", req.body);
     const {aslab_name, aslab_npm, aslab_profile_picture, aslab_bio, aslab_email, aslab_password} = req.body;
 
-    const hashed_password = hashPassword(aslab_password);
+    const hashed_password = await hashPassword(aslab_password);
 
     try {
 
@@ -100,17 +98,54 @@ async function createAccountPraktikan(req, res){
             });
         }
         const result = await pool.query(
-            'INSERT INTO praktikan (praktikan_name, praktikan_npm, praktikan_bio, praktikan_email, praktikan_password) VALUES ($1, $2, $3, $4, $5) RETURNING id',
+            'INSERT INTO praktikan (praktikan_name, praktikan_npm, praktikan_bio, praktikan_email, praktikan_password) VALUES ($1, $2, $3, $4, $5) RETURNING *',
             [username, npm, bio, email, hashedPassword]
         );
         res.status(201).json(result);
     } catch (error) {
-        //console.log(error);
+        console.log(error);
         res.status(500).json(error);
     }
 };
 
+async function login(req, res) {
+    const { aslab_email, aslab_password } = req.body;
+    if (!aslab_email || !aslab_password) {
+      res
+        .status(400)
+        .json({message: "Missing field"});
+      return;
+    }
+
+    try {
+      const aslab = await pool.query(
+        `SELECT * FROM aslab WHERE aslab_email = '${aslab_email}';`
+      );
+      if (aslab.rows.length === 0) {
+        res
+          .status(400)
+          .json({message: "User not found"});
+        return;
+      }
+
+      const match = await validateUser(aslab_password, aslab.rows[0].aslab_password);
+      if (!match) {
+        res
+          .status(400)
+          .json({message: "Incorrect Password"});
+        return;
+      }
+
+      res.status(200).json({data: aslab.rows[0], message: 'login successful'});
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).json(err);
+      return;
+    }
+}
+
 module.exports = {
     createAccountAslab,
-    createAccountPraktikan
+    createAccountPraktikan,
+    login
 }

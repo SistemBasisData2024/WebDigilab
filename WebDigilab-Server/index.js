@@ -14,6 +14,7 @@ app.use(express.urlencoded({extended: true}));
 
 app.post('/createAccountAslab', accountRepo.createAccountAslab);
 app.post('/createAccountPraktikan', accountRepo.createAccountPraktikan);
+app.post('/login', accountRepo.login);
 
 app.listen(port, () => {
     console.log("Server is running and listening on port ", port);
