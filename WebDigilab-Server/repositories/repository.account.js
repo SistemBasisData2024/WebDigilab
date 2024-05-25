@@ -77,11 +77,11 @@ async function createAccountAslab(req,res) {
 
 async function createAccountPraktikan(req, res){
     try {
-        const { username, npm, bio, email, password } = req.body;
-        const hashedPassword = await hashPassword(password);
+        const { praktikan_name, praktikan_npm, praktikan_bio, praktikan_profile_picture, praktikan_email, praktikan_password } = req.body;
+        const hashedPassword = await hashPassword(praktikan_password);
         const checkNpm = await pool.query(
             'SELECT * FROM praktikan WHERE praktikan_npm = $1', 
-            [npm]
+            [praktikan_npm]
         );
         if(checkNpm.rowCount !==0){
             return res.status(400).json({
@@ -90,16 +90,16 @@ async function createAccountPraktikan(req, res){
         }
         const checkEmail = await pool.query(
             'SELECT * FROM praktikan WHERE praktikan_email = $1', 
-            [email]
+            [praktikan_email]
         );
         if(checkEmail.rowCount !==0){
-            return res.status(400).json({
+            return res.status(401).json({
                 error: "Email sudah terdaftar"
             });
         }
         const result = await pool.query(
-            'INSERT INTO praktikan (praktikan_name, praktikan_npm, praktikan_bio, praktikan_email, praktikan_password) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-            [username, npm, bio, email, hashedPassword]
+            'INSERT INTO praktikan (praktikan_name, praktikan_npm, praktikan_bio, praktikan_profile_picture, praktikan_email, praktikan_password) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+            [praktikan_name, praktikan_npm, praktikan_bio, praktikan_profile_picture, praktikan_email, hashedPassword]
         );
         res.status(201).json(result);
     } catch (error) {
