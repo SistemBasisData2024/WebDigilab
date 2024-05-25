@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import {useNavigate} from "react-router-dom";
 
 import Spline from "@splinetool/react-spline";
 
 function Register() {
+
+    const navigate = useNavigate();
 
     const createAccountAslabURL = "http://localhost:4000/createAccountAslab"
     const createAccountPraktikanURL = "http://localhost:4000/createAccountPraktikan"
@@ -60,6 +63,7 @@ function Register() {
             if (data) {
                 console.log('Create Account successfully:', data);
                 alert('Akun berhasil dibuat')
+                navigate("/")
             }
           }).catch(() => {
             alert('Server Not Responding');
@@ -113,6 +117,7 @@ function Register() {
             if (data) {
                 console.log('Create Account successfully:', data);
                 alert('Akun berhasil dibuat')
+                navigate("/")
             }
           }).catch(() => {
             alert('Server Not Responding');
@@ -127,7 +132,7 @@ function Register() {
                     {loading && (
                         <img
                         alt=""
-                        src="../public/embedded-system-micro.jpg"
+                        src="/embedded-system-micro.jpg"
                         className="absolute inset-0 h-full w-full object-cover"
                         />
                     )}
@@ -245,23 +250,24 @@ function Register() {
                             <div className="col-span-6 flex justify-center mt-6 gap-4">
                                 <button
                                     className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
-                                    onClick={handleCreateAccountAslab}
-                                >
-                                    Assistant Account
-                                </button>
-                                <button
-                                    className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
                                     onClick={handleCreateAccountPraktikan}
                                 >
                                     Normal Account
                                 </button>
+                                <button
+                                    className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
+                                    onClick={handleCreateAccountAslab}
+                                >
+                                    Assistant Account
+                                </button>
+                                
                             </div>
                         </form>
 
                         <div className="col-span-6 mt-4 text-center">
                             <p className="text-sm text-gray-500">
                                 Already have an account?
-                                <a href="#" className="text-gray-700 underline"> Log in</a>.
+                                <a href="/" className="text-gray-700 underline"> Log in</a>.
                             </p>
                         </div>
                     </div>

@@ -1,13 +1,17 @@
-import AslabSignUp from "./AslabSignUp"
-import Spline from '@splinetool/react-spline';
 import Register from "./Register";
+import { BrowserRouter, Routes, Route} from 'react-router-dom';
+import Login from './Login';
 
 function App() {
   
   return (
-    <>
-
-      <Register />
+    <> 
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />}/>
+          <Route path="/register" element={<Register />}/>
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }

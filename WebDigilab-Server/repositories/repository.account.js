@@ -108,7 +108,7 @@ async function createAccountPraktikan(req, res){
     }
 };
 
-async function login(req, res) {
+async function loginAccountAslab(req, res) {
     const { aslab_email, aslab_password } = req.body;
     if (!aslab_email || !aslab_password) {
       res
@@ -123,7 +123,7 @@ async function login(req, res) {
       );
       if (aslab.rows.length === 0) {
         res
-          .status(400)
+          .status(401)
           .json({message: "User not found"});
         return;
       }
@@ -131,7 +131,7 @@ async function login(req, res) {
       const match = await validateUser(aslab_password, aslab.rows[0].aslab_password);
       if (!match) {
         res
-          .status(400)
+          .status(402)
           .json({message: "Incorrect Password"});
         return;
       }
@@ -144,8 +144,45 @@ async function login(req, res) {
     }
 }
 
+async function loginAccountPraktikan(req, res) {
+    const { praktikan_email, praktikan_password } = req.body;
+    if (!praktikan_email || !praktikan_password) {
+      res
+        .status(400)
+        .json({message: "Missing field"});
+      return;
+    }
+
+    try {
+      const praktikan = await pool.query(
+        `SELECT * FROM praktikan WHERE praktikan_email = '${praktikan_email}';`
+      );
+      if (praktikan.rows.length === 0) {
+        res
+          .status(401)
+          .json({message: "User not found"});
+        return;
+      }
+
+      const match = await validateUser(praktikan_password, praktikan.rows[0].praktikan_password);
+      if (!match) {
+        res
+          .status(402)
+          .json({message: "Incorrect Password"});
+        return;
+      }
+
+      res.status(200).json({data: praktikan.rows[0], message: 'login successful'});
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).json(err);
+      return;
+    }
+}
+
 module.exports = {
     createAccountAslab,
     createAccountPraktikan,
-    login
+    loginAccountAslab,
+    loginAccountPraktikan
 }
