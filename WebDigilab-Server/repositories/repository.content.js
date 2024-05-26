@@ -111,10 +111,53 @@ async function getAllMatkuls(req, res) {
     }
 }
 
+async function createChapter(req, res) {
+    const {course_id, chapter_no, chapter_title, chapter_link} = req.body;
+    
+    //janlup kasih handle ketika nomor chapter sudah ada atau nomor chapter null
+
+    try {
+        const result = await pool.query(
+            'INSERT INTO chapter (course_id, chapter_no, chapter_title, chapter_link) VALUES ($1, $2, $3, $4) RETURNING *',
+            [course_id, chapter_no, chapter_title, chapter_link]
+        );
+
+        const newChapter = result.rows[0];
+
+        res.status(200).json(newChapter);
+    } catch (err) {
+        res.status(500).json({
+            error: err
+        })
+    }
+}
+
+async function getAllChaptersByCourseId(req, res) {
+
+    const courseId = req.params.id;
+
+    try {
+        const result = await pool.query(
+            'SELECT * FROM chapter WHERE course_id = $1 ORDER BY chapter_no ASC',
+            [courseId]
+        );
+
+        const allChapters = result.rows;
+
+        res.status(200).json(allChapters);
+    } catch (err) {
+        res.status(500).json({
+            error: err
+        })
+    }
+}
+
 module.exports = {
     createMatkul,
     createCourse,
     getAllCourses,
     getAllCoursesByMatkulId,
-    getAllMatkuls
+    getAllMatkuls,
+    createChapter,
+    getAllChaptersByCourseId
 }

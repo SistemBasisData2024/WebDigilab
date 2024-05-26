@@ -139,8 +139,8 @@ function Courses() {
                         {courses.map((course, index) => (
                             <a 
                                 key={index}
-                                className="block rounded-xl border border-gray-800 p-8 shadow-xl transition hover:border-pink-500/10 hover:shadow-pink-500/10 flex"
-                                href="#"
+                                className="block rounded-xl border border-gray-800 p-8 shadow-xl transition hover:border-blue-500/100 hover:shadow-blue-500/50 flex hover:scale-105"
+                                href={`/Course/${course.course_id}`}
                             >
                                 <div className="flex-1 p-4">
                                     <h1 className="mt-4 text-xl font-bold">{course.course_name}</h1>
