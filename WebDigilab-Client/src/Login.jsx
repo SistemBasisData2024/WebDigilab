@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {useNavigate} from "react-router-dom";
-
+import { CookiesProvider, useCookies } from 'react-cookie'
 import Spline from "@splinetool/react-spline";
 
 function Login() {
-
+    const [cookies, setCookie] = useCookies(['user'])
     const navigate = useNavigate();
 
     const loginAccountAslabURL = "http://localhost:4000/loginAccountAslab"
@@ -74,8 +74,9 @@ function Login() {
           })
           .then(data => {
             if (data) {
-                console.log('Create Account successfully:', data);
-                alert('Login Aslab Succesful')
+                console.log('Login successfully:', data);
+                setCookie('user', {data:data, isAslab: true}, { path: '/' })
+                navigate("/home");
             }
           }).catch(() => {
             alert('Server Not Responding');
@@ -125,8 +126,9 @@ function Login() {
           })
           .then(data => {
             if (data) {
-                console.log('Create Account successfully:', data);
-                alert('Login Praktikan Succesfull')
+                console.log('Login successfully:', data);
+                setCookie('user', {data:data, isAslab: false}, { path: '/' })
+                navigate("/home");
             }
           }).catch(() => {
             alert('Server Not Responding');

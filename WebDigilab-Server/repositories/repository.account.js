@@ -136,7 +136,7 @@ async function loginAccountAslab(req, res) {
         return;
       }
 
-      res.status(200).json({data: aslab.rows[0], message: 'login successful'});
+      res.status(200).json(aslab.rows[0]);
     } catch (err) {
       console.error(err.message);
       res.status(500).json(err);
@@ -172,7 +172,7 @@ async function loginAccountPraktikan(req, res) {
         return;
       }
 
-      res.status(200).json({data: praktikan.rows[0], message: 'login successful'});
+      res.status(200).json(praktikan.rows[0]);
     } catch (err) {
       console.error(err.message);
       res.status(500).json(err);
