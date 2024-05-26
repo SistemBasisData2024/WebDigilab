@@ -196,7 +196,7 @@ function Login() {
                 </form>
                 <p className="mt-4 text-center text-gray-500">
                     <>Don't have an account? </>
-                    <a href="/register" className="text-white hover:underline">Sign Up</a>.
+                    <a href="/Register" className="text-white hover:underline">Sign Up</a>.
                 </p>
             </div>
         </div>
