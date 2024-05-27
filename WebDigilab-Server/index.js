@@ -25,6 +25,7 @@ app.get('/getAllCourses/:id', contentRepo.getAllCoursesByMatkulId);
 app.get('/getAllMatkuls', contentRepo.getAllMatkuls);
 app.post('/createChapter', contentRepo.createChapter);
 app.get('/getAllChapters/:id', contentRepo.getAllChaptersByCourseId);
+app.post('/editCourse', contentRepo.updateCourse);
 
 app.listen(port, () => {
     console.log("Server is running and listening on port ", port);

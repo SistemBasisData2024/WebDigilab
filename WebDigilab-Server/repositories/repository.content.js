@@ -152,6 +152,26 @@ async function getAllChaptersByCourseId(req, res) {
     }
 }
 
+async function updateCourse(req, res) {
+    
+    const {course_id, matkul_id, course_name, course_desc, course_image} = req.body;
+
+    try {
+        const result = await pool.query (
+            'UPDATE course SET matkul_id = $1, course_name = $2, course_desc = $3, course_image = $4 WHERE course_id = $5 RETURNING *',
+            [matkul_id, course_name, course_desc, course_image, course_id]
+        )
+
+        const updatedCourse = result.rows[0];
+        
+        res.status(200).json(updatedCourse);
+    } catch(err) {
+        res.status(500).json({
+            error: err
+        })
+    }
+}
+
 module.exports = {
     createMatkul,
     createCourse,
@@ -159,5 +179,6 @@ module.exports = {
     getAllCoursesByMatkulId,
     getAllMatkuls,
     createChapter,
-    getAllChaptersByCourseId
+    getAllChaptersByCourseId,
+    updateCourse
 }
