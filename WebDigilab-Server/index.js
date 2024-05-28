@@ -17,6 +17,10 @@ app.post('/createAccountAslab', accountRepo.createAccountAslab);
 app.post('/createAccountPraktikan', accountRepo.createAccountPraktikan);
 app.post('/loginAccountAslab', accountRepo.loginAccountAslab);
 app.post('/loginAccountPraktikan', accountRepo.loginAccountPraktikan);
+app.put('/updateAccountAslab', accountRepo.updateAccountAslab);
+app.put('/updateAccountPraktikan', accountRepo.updateAccountPraktikan);
+app.delete('/deleteAccountAslab', accountRepo.deleteAccountAslab);
+app.delete('/deleteAccountPraktikan', accountRepo.deleteAccountPraktikan);
 
 app.post('/createMatkul', contentRepo.createMatkul);
 app.post('/createCourse', contentRepo.createCourse);

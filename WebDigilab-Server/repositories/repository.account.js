@@ -180,9 +180,101 @@ async function loginAccountPraktikan(req, res) {
     }
 }
 
+async function updateAccountPraktikan (req, res) {
+  try {
+      const { praktikan_id, praktikan_name, praktikan_npm, praktikan_bio, praktikan_profile_picture, praktikan_email, praktikan_password } = req.body;
+      const hashedPassword = await hashPassword(praktikan_password);
+      
+      if (!praktikan_password) {
+          const result = await pool.query(
+            'UPDATE praktikan SET praktikan_name = $1, praktikan_npm = $2, praktikan_bio = $3, praktikan_profile_picture = $4, praktikan_email = $5 WHERE praktikan_id = $6 RETURNING *' ,
+            [praktikan_name, praktikan_npm, praktikan_bio, praktikan_profile_picture, praktikan_email, praktikan_id]
+          );
+          res.status(201).json(result.rows[0]);
+      }
+      else {
+        const result = await pool.query(
+          'UPDATE praktikan SET praktikan_name = $1, praktikan_npm = $2, praktikan_bio = $3, praktikan_profile_picture = $4, praktikan_email = $5, praktikan_password = $6 WHERE praktikan_id = $7 RETURNING *' ,
+          [praktikan_name, praktikan_npm, praktikan_bio, praktikan_profile_picture, praktikan_email, hashedPassword, praktikan_id]
+        );
+        res.status(201).json(result.rows[0]);
+      }
+      
+  } catch (error) {
+      console.log(error);
+      res.status(500).json(error);
+  }
+}
+
+async function updateAccountAslab (req, res) {
+  try {
+      const { aslab_id, aslab_name, aslab_npm, aslab_bio, aslab_profile_picture, aslab_email, aslab_password } = req.body;
+      const hashedPassword = await hashPassword(aslab_password);
+      
+      if (!aslab_password) {
+          const result = await pool.query(
+            'UPDATE aslab SET aslab_name = $1, aslab_npm = $2, aslab_bio = $3, aslab_profile_picture = $4, aslab_email = $5 WHERE aslab_id = $6 RETURNING *' ,
+            [aslab_name, aslab_npm, aslab_bio, aslab_profile_picture, aslab_email, aslab_id]
+          );
+          res.status(201).json(result.rows[0]);
+      }
+      else {
+        const result = await pool.query(
+          'UPDATE aslab SET aslab_name = $1, aslab_npm = $2, aslab_bio = $3, aslab_profile_picture = $4, aslab_email = $5, aslab_password = $6 WHERE aslab_id = $7 RETURNING *' ,
+          [aslab_name, aslab_npm, aslab_bio, aslab_profile_picture, aslab_email, hashedPassword, aslab_id]
+        );
+        res.status(201).json(result.rows[0]);
+      }
+      
+  } catch (error) {
+      console.log(error);
+      res.status(500).json(error);
+  }
+}
+
+async function deleteAccountAslab(req, res) {
+  const {aslab_id} = req.body;
+
+  try {
+      const result = await pool.query(
+          'DELETE FROM aslab WHERE aslab_id = $1 RETURNING *',
+          [aslab_id]
+      )
+
+      const deletedAslab = result.rows[0];
+      res.status(200).json(deletedAslab);
+  } catch (err) {
+      res.status(500).json({
+          error: err
+      })
+  }
+}
+
+async function deleteAccountPraktikan(req, res) {
+  const {praktikan_id} = req.body;
+
+  try {
+      const result = await pool.query(
+          'DELETE FROM praktikan WHERE praktikan_id = $1 RETURNING *',
+          [praktikan_id]
+      )
+
+      const deletedPraktikan= result.rows[0];
+      res.status(200).json(deletedPraktikan);
+  } catch (err) {
+      res.status(500).json({
+          error: err
+      })
+  }
+}
+
 module.exports = {
     createAccountAslab,
     createAccountPraktikan,
     loginAccountAslab,
-    loginAccountPraktikan
+    loginAccountPraktikan,
+    updateAccountPraktikan,
+    updateAccountAslab,
+    deleteAccountAslab,
+    deleteAccountPraktikan
 }

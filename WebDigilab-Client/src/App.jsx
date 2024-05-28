@@ -5,6 +5,7 @@ import Home from './Home';
 import Courses from './Courses';
 import Course from './Course';
 import CoursesEdit from './CoursesEdit';
+import AccountSetting from './AccountSetting';
 
 function App() {
   
@@ -18,6 +19,7 @@ function App() {
           <Route path="/Courses" element={<Courses />} />
           <Route path="/CoursesEdit" element={<CoursesEdit />} />
           <Route path="/Course/:courseId" element={<Course />} />
+          <Route path="/AccountSetting" element={<AccountSetting />} />
         </Routes>
       </BrowserRouter>
     </>
