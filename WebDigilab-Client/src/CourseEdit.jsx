@@ -12,7 +12,6 @@ function CourseEdit(props) {
     const [subject, setSubject] = useState(props.course.matkul_id);
     const [chapters, setChapters] = useState(null);
     const [selectedChapter, setSelectedChapter] = useState(null);
-    const [link, setLink] = useState(null);
 
     useEffect(() => {
         handleGetAllChapters();
@@ -26,6 +25,7 @@ function CourseEdit(props) {
         const chapterId = event.target.value;
         const chapter = chapters.find(ch => ch.chapter_id === chapterId);
         setSelectedChapter(chapter);
+       
     };
 
     const handleEditCourse = (event) => {
@@ -182,9 +182,6 @@ function CourseEdit(props) {
             if (data) {
               console.log('Course Successfully Fetched:', data);
               setChapters(data);
-              if (data.length > 0) {
-                setLink(data[0].chapter_link); // Set the initial link to the first chapter
-              }
             }
           }).catch(() => {
             alert('Server Not Responding');
@@ -274,73 +271,75 @@ function CourseEdit(props) {
                     ))}
                 </select>
                 {selectedChapter && (
-                    <>
-                    <div className="relative z-0 w-full mb-5 group ">
-                        <input
-                            type="text"
-                            name="chapter_title"
-                            id="chapter_title"
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            defaultValue={selectedChapter ? selectedChapter.chapter_title : ""} // Set defaultValue based on props
-                            required
-                        />
-                        <label
-                            htmlFor="chapter_title"
-                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                        >
-                            Chapter Title
-                        </label>
-                    </div>
+                    <div key={selectedChapter.id}>
+                        <div className="relative z-0 w-full mb-5 group">
+                            <input
+                                type="text"
+                                name="chapter_title"
+                                id="chapter_title"
+                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                placeholder=" "
+                                value={selectedChapter.chapter_title}
+                                onChange={(e) => setSelectedChapter({ ...selectedChapter, chapter_title: e.target.value })}
+                                required
+                            />
+                            <label
+                                htmlFor="chapter_title"
+                                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                            >
+                                Chapter Title
+                            </label>
+                        </div>
 
-                    <div className="relative z-0 w-full mb-5 group ">
-                        <input
-                            type="number"
-                            name="chapter_no"
-                            id="chapter_no"
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            defaultValue={selectedChapter ? selectedChapter.chapter_no : ""} // Set defaultValue based on props
-                            required
-                        />
-                        <label
-                            htmlFor="chapter_no"
-                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                        >
-                            Chapter Number
-                        </label>
-                    </div>
+                        <div className="relative z-0 w-full mb-5 group">
+                            <input
+                                type="number"
+                                name="chapter_no"
+                                id="chapter_no"
+                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                placeholder=" "
+                                value={selectedChapter.chapter_no}
+                                onChange={(e) => setSelectedChapter({ ...selectedChapter, chapter_no: e.target.value })}
+                                required
+                            />
+                            <label
+                                htmlFor="chapter_no"
+                                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                            >
+                                Chapter Number
+                            </label>
+                        </div>
 
-                    <div className="relative z-0 w-full mb-5 group ">
-                        <input
-                            type="text"
-                            name="chapter_link"
-                            id="chapter_link"
-                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            defaultValue={selectedChapter ? selectedChapter.chapter_link : ""} // Set defaultValue based on props
-                            required
-                        />
-                        <label
-                            htmlFor="chapter_link"
-                            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                        >
-                            Chapter Link
-                        </label>
-                    </div>
+                        <div className="relative z-0 w-full mb-5 group">
+                            <input
+                                type="text"
+                                name="chapter_link"
+                                id="chapter_link"
+                                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                placeholder=" "
+                                value={selectedChapter.chapter_link}
+                                onChange={(e) => setSelectedChapter({ ...selectedChapter, chapter_link: e.target.value })}
+                                required
+                            />
+                            <label
+                                htmlFor="chapter_link"
+                                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                            >
+                                Chapter Link
+                            </label>
+                        </div>
 
-                    <div className="flex justify-end">
-                        <button
-                            type="button"
-                            onClick={handleDeleteChapter}
-                            className="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-40 mb-5 px-5 py-2.5 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
-                        >
-                            Delete Chapter
-                        </button>
+                        <div className="flex justify-end">
+                            <button
+                                type="button"
+                                onClick={handleDeleteChapter}
+                                className="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-40 mb-5 px-5 py-2.5 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+                            >
+                                Delete Chapter
+                            </button>
+                        </div>
                     </div>
-                </>
                 )}
-                
 
                 <div className="flex space-x-4 mb-5">
                     <button
