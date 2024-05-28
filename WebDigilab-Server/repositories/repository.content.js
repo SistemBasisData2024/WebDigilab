@@ -61,7 +61,7 @@ async function getAllCourses(req, res) {
 
     try {
         const result = await pool.query(
-            'SELECT * FROM course'
+            'SELECT * FROM course ORDER BY course_id ASC'
         );
 
         const allCourse = result.rows;
@@ -98,7 +98,7 @@ async function getAllMatkuls(req, res) {
 
     try {
         const result = await pool.query(
-            'SELECT * FROM matkul'
+            'SELECT * FROM matkul ORDER BY matkul_id ASC'
         );
 
         const allMatkul = result.rows;
@@ -172,6 +172,62 @@ async function updateCourse(req, res) {
     }
 }
 
+async function deleteCourse(req, res) {
+    const {course_id} = req.body;
+
+    try {
+        const result = await pool.query(
+            'DELETE FROM course WHERE course_id = $1 RETURNING *',
+            [course_id]
+        )
+
+        const deletedCourse = result.rows[0];
+        res.status(200).json(deletedCourse);
+    } catch (err) {
+        res.status(500).json({
+            error: err
+        })
+    }
+}
+
+async function deleteChapter(req, res) {
+    const {chapter_id} = req.body;
+
+    try {
+        const result = await pool.query(
+            'DELETE FROM chapter WHERE chapter_id = $1 RETURNING *',
+            [chapter_id]
+        )
+
+        const deletedChapter = result.rows[0];
+        res.status(200).json(deletedChapter);
+    } catch (err) {
+        res.status(500).json({
+            error: err
+        })
+    }
+}
+
+async function updateChapter(req, res) {
+    
+    const {chapter_id, chapter_title, chapter_no, chapter_link} = req.body;
+
+    try {
+        const result = await pool.query (
+            'UPDATE chapter SET chapter_title = $1, chapter_no = $2, chapter_link = $3 WHERE chapter_id = $4 RETURNING *',
+            [chapter_title, chapter_no, chapter_link, chapter_id]
+        )
+
+        const updatedChapter = result.rows[0];
+        
+        res.status(200).json(updatedChapter);
+    } catch(err) {
+        res.status(500).json({
+            error: err
+        })
+    }
+}
+
 module.exports = {
     createMatkul,
     createCourse,
@@ -180,5 +236,8 @@ module.exports = {
     getAllMatkuls,
     createChapter,
     getAllChaptersByCourseId,
-    updateCourse
+    updateCourse,
+    deleteCourse,
+    deleteChapter,
+    updateChapter
 }

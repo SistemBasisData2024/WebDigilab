@@ -150,7 +150,7 @@ function Login() {
             className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 flex items-center justify-center">
-            <div className="max-w-md p-8 bg-opacity-40 bg-black rounded-lg shadow-md">
+            <div className="max-w-md p-8 hover:scale-[102%] duration-300 ease-in-out bg-opacity-40 backdrop-blur-lg bg-black rounded-lg shadow-md">
                 <h1 className="text-2xl font-bold text-white mb-8 text-center">
                     {loading ? typedText : "Login to DigiLab Account"}
                 </h1>
