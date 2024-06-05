@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { Pool } = require('pg');
 const bcrypt = require("bcrypt")
+const cloudinary = require("../cloudinary/cloudinary")
 
 const pool = new Pool({
     user: process.env.PGUSER,
@@ -268,6 +269,29 @@ async function deleteAccountPraktikan(req, res) {
   }
 }
 
+async function uploadImage(req, res) {
+  const {image, id} = req.body; 
+  const uploadedImage = await cloudinary.uploader.upload(image,
+  {
+    upload_preset: 'unsigned_preset',
+    public_id: id+"avatar",
+    allowed_formats: ['png', 'jpg', 'jpeg', 'svg', 'ico', 'jfif', 'webp'],
+    format: 'png'
+  },
+  function(error, result) { 
+    if(error) {
+      console.log(error); 
+    }
+    console.log(result); 
+  });
+  
+  try {
+    res.status(200).json(uploadedImage);
+  }catch(err) {
+    console.log(err);
+  }
+}
+
 module.exports = {
     createAccountAslab,
     createAccountPraktikan,
@@ -276,5 +300,6 @@ module.exports = {
     updateAccountPraktikan,
     updateAccountAslab,
     deleteAccountAslab,
-    deleteAccountPraktikan
+    deleteAccountPraktikan,
+    uploadImage
 }

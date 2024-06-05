@@ -3,13 +3,15 @@ const express = require("express");
 const cors = require('cors');
 const accountRepo = require("./repositories/repository.account");
 const contentRepo = require("./repositories/repository.content")
+const cloudinary = require('./cloudinary/cloudinary');
 
 const port = process.env.PORT;
 const app = express();
 
 // Middleware
 app.use(cors());
-app.use(express.urlencoded({extended: true}));
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({extended: true, limit: '50mb'}));
 
 // Endpoint
 
@@ -21,6 +23,7 @@ app.put('/updateAccountAslab', accountRepo.updateAccountAslab);
 app.put('/updateAccountPraktikan', accountRepo.updateAccountPraktikan);
 app.delete('/deleteAccountAslab', accountRepo.deleteAccountAslab);
 app.delete('/deleteAccountPraktikan', accountRepo.deleteAccountPraktikan);
+app.post('/uploadImage', accountRepo.uploadImage);
 
 app.post('/createMatkul', contentRepo.createMatkul);
 app.post('/createCourse', contentRepo.createCourse);
