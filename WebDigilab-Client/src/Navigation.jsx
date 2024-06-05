@@ -64,9 +64,9 @@ function Navigation() {
         <div className="relative flex items-center space-x-3 rtl:space-x-reverse">
             <button type="button" className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false">
                 <span className="sr-only">Open user menu</span>
-                <Img2 className='w-8 h-8' uploadedImage={cookies.user.isAslab ? 
+                <img className='w-8 h-8 rounded-full' src={cookies.user.isAslab ? 
                     (cookies.user.data.aslab_profile_picture != null && cookies.user.data.aslab_profile_picture != 'null' && cookies.user.data.aslab_profile_picture != '' )? cookies.user.data.aslab_profile_picture : '/profile_picture.png' :
-                    (cookies.user.data.praktikan_profile_picture != null && cookies.user.data.aslab_profile_picture != 'null' && cookies.user.data.aslab_profile_picture != '') ? cookies.user.data.praktikan_profile_picture : '/profile_picture.png'} 
+                    (cookies.user.data.praktikan_profile_picture != null && cookies.user.data.praktikan_profile_picture != 'null' && cookies.user.praktikan.aslab_profile_picture != '') ? cookies.user.data.praktikan_profile_picture : '/profile_picture.png'} 
                     />
             </button>
             <div className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600 absolute left-0 top-full mt-2 w-48" id="user-dropdown">

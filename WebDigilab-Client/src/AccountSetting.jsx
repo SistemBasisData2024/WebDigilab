@@ -33,7 +33,7 @@ function AccountSetting() {
                     id: cookies.user.data.aslab_email
                 });
                 console.log(result);
-                const uploadedImg = result.data.public_id;
+                const uploadedImg = result.data.url;
                 setUploadedImage(uploadedImg);
             } else {
                 const result = await axios.post("http://localhost:4000/uploadImage", {
@@ -41,7 +41,7 @@ function AccountSetting() {
                     id: cookies.user.data.praktikan_email
                 });
                 console.log(result.data);
-                const uploadedImg = result.data.public_id;
+                const uploadedImg = result.data.url;
                 setUploadedImage(uploadedImg);
             }
             console.log(uploadedImage);
@@ -220,7 +220,7 @@ function AccountSetting() {
                     <h1 className="mt-6 mb-3 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl dark:text-white text-center">
                         Account Settings
                     </h1>
-                    <Img className='w-150 h-150' uploadedImage={uploadedImage} />
+                    {uploadedImage && (<img className='w-32 h-32 rounded-full' src={uploadedImage} />)}
                     <form className='grid grid-cols-6 gap-6'>
                         <div className="col-span-6 sm:col-span-3 items-center">
                             <label
