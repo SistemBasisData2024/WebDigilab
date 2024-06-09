@@ -64,4 +64,6 @@
 
 ![Account Settings](img/AccountSetting.png)
 
+## Database UML
 
+![UML Diagram](DatabaseUML.png)
