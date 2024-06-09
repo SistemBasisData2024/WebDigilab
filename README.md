@@ -1,10 +1,29 @@
 # Digital Laboratory Web (DigiWeb) Project
 
-## Description
+## Latar Belakang
 
-...
+Untuk saat ini, kegiatan praktikum yang diselenggarkan oleh Digital Laboratory masih membutuhkan jasa dari Website EMAS milik Universitas Indonesia dalam mengunggah soal serta materi praktikum. Web Digilab diciptakan agar kegiatan praktikum tidak sepenuhnya mengandalkan website EMAS lagi. Hal ini bertujuan agar tampilan EMAS praktikan diharapkan hanya berisikan course yang disediakan dosen saja, sedangkan course Asisten akan diunggah pada Web Digilab secara tersendiri.  Web Digilab juga merupakan salah satu wujud agar kegiatan praktikum Laboratory Digital dapat berkembangkan kedepannya dengan memanfaatkan Websitenya sendiri. 
 
-## How to Use
+## Deskripsi
+
+Source Code Web Digilab akan dibagi menjadi 2 bagian, yakni program Front End dan program Back End. Framework React Js, CSS Tailwind, dan Spline adalah framework utama yang dimanfaatkan untuk mengembangkan bagian Front End, sedangkan framework Node Js adalah framework utama yang dimanfaatkan untuk mengembangkan bagian Back End. Selebihnya, database PostgreSQL dimanfaatkan sebagai  media DBMS untuk Web Digilab yang ingin dikembangkan. Karakteristik Relational dari PostgreSQL menyebabkan database yang dikelola dapat dinormalisasi sehingga mencegah terjadinya redundansi data. Hal tersebut memberikan performa database yang lebih baik serta efisien apabila ingin melakukan operasi CRUD (Create, Read, Update, Delete) oleh Clien.
+
+## Database UML
+
+![UML Diagram](DatabaseUML.png)
+
+## Database ERD
+
+### Entity to Attribute Relationship
+
+![Entity2Attribute](img/Entity2Attribute.png)
+
+### Entity to Entity Relationship
+
+![Entity2Entity](img/Entity2Entity.png)
+
+## Cara Penggunaan
+
 - Download or clone the repository  
 ```git clone https://github.com/SistemBasisData2024/WebDigilab```
 
@@ -17,7 +36,7 @@
 - Run the frontend  
 ```npm run dev```
 
-## Web Preview
+## Preview Web
 
 1. **Login page:** Halaman ini digunakan bagi pengguna yang ingin masuk ke WebDigilab dengan akun yang dimilikinya. Pengguna dapat masuk sebagai Asisten atau Praktikan
 
@@ -63,7 +82,3 @@
 11. **Account Settings:** Halaman ini berguna untuk pengguna mengedit profile dari akunnya.
 
 ![Account Settings](img/AccountSetting.png)
-
-## Database UML
-
-![UML Diagram](DatabaseUML.png)
