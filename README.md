@@ -6,7 +6,7 @@ Untuk saat ini, kegiatan praktikum yang diselenggarkan oleh Digital Laboratory m
 
 ## Deskripsi
 
-Source Code Web Digilab akan dibagi menjadi 2 bagian, yakni program Front End dan program Back End. Framework React Js, CSS Tailwind, dan Spline adalah framework utama yang dimanfaatkan untuk mengembangkan bagian Front End, sedangkan framework Node Js adalah framework utama yang dimanfaatkan untuk mengembangkan bagian Back End. Selebihnya, database PostgreSQL dimanfaatkan sebagai  media DBMS untuk Web Digilab yang ingin dikembangkan. Karakteristik Relational dari PostgreSQL menyebabkan database yang dikelola dapat dinormalisasi sehingga mencegah terjadinya redundansi data. Hal tersebut memberikan performa database yang lebih baik serta efisien apabila ingin melakukan operasi CRUD (Create, Read, Update, Delete) oleh Clien.
+Source Code Web Digilab akan dibagi menjadi 2 bagian, yakni program Front End dan program Back End. Framework React Js, CSS Tailwind, dan Spline adalah framework utama yang dimanfaatkan untuk mengembangkan bagian Front End, sedangkan framework Node Js adalah framework utama yang dimanfaatkan untuk mengembangkan bagian Back End. Selebihnya, database PostgreSQL dimanfaatkan sebagai  media DBMS untuk Web Digilab yang ingin dikembangkan. Karakteristik Relational dari PostgreSQL menyebabkan database yang dikelola dapat dinormalisasi sehingga mencegah terjadinya redundansi data. Hal tersebut memberikan performa database yang lebih baik serta efisien apabila ingin melakukan operasi CRUD (Create, Read, Update, Delete) oleh Client.
 
 ## Database UML
 
