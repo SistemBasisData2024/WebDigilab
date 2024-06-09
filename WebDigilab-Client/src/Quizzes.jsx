@@ -37,6 +37,7 @@ function Quizzes() {
         try {
             const response = await axios.get(`http://localhost:4000/getQuizzes/${chapterId}`);
             setQuizzes(response.data);
+            console.log(response);
         } catch (err) {
             setError('Error fetching quizzes');
         }
@@ -56,6 +57,10 @@ function Quizzes() {
         }
     }, [selectedCourse]);
 
+    useEffect(() => {
+        handleFetchQuizzes()
+    }, [selectedChapter])
+
     const handleCourseChange = (e) => {
         setSelectedCourse(e.target.value);
         setSelectedChapter('');
@@ -63,7 +68,7 @@ function Quizzes() {
     };
 
     const handleChapterChange = (e) => {
-        setSelectedChapter(e.target.value);
+        setSelectedChapter(e.target.value); 
     };
 
     const handleFetchQuizzes = () => {
@@ -116,13 +121,7 @@ function Quizzes() {
                                 ))}
                             </select>
                         </div>
-                        <button
-                            onClick={handleFetchQuizzes}
-                            className="p-2 bg-blue-500 hover:bg-blue-700 text-white rounded"
-                            disabled={!selectedChapter}
-                        >
-                            Fetch Quizzes
-                        </button>
+                        
                     </div>
                     <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-3">
                         {quizzes.length > 0 ? (
