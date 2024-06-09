@@ -87,12 +87,12 @@ Source Code Web Digilab akan dibagi menjadi 2 bagian, yakni program Front End da
 
 ![Account Settings](img/AccountSetting.png)
 
-## Project Meeting
+## Project Meetings
 
-1. Meeting 1
+1. Project Meeting 1
 
-![First Meeting](img/Meeting1.jpg)
+![Project Meeting 1](img/Meeting1.jpg)
 
-2. Meeting 2
+2. Project meeting 2
 
-![First Meeting](img/meeting2.jpg)
+![Project Meeting 2](img/meeting2.jpg)

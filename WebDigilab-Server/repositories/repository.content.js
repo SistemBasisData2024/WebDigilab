@@ -230,12 +230,12 @@ async function updateChapter(req, res) {
 
 async function createQuiz(req, res) {
     try{
-        const {chapterId, quizTitle, quizDesc, quizImage} = req.body;
+        const {chapterId, quizTitle, quizDesc, quizImage, quizStart, quizEnd} = req.body;
 
         const result = await pool.query(
-            `INSERT INTO quiz(chapter_id, quiz_title, quiz_desc, quiz_image)
-            VALUES($1, $2, $3, $4) RETURNING quiz_id`,
-            [chapterId, quizTitle, quizDesc, quizImage]
+            `INSERT INTO quiz(chapter_id, quiz_title, quiz_desc, quiz_image, quiz_start, quiz_end)
+            VALUES($1, $2, $3, $4, $5, $6) RETURNING quiz_id`,
+            [chapterId, quizTitle, quizDesc, quizImage, quizStart, quizEnd]
         );
 
         const quizId = result.rows[0];
@@ -252,7 +252,7 @@ async function createQuiz(req, res) {
 async function createQuestion(req, res){
     try{
         //const quizId = req.params.quizId;
-        const {quizId, questionNo, questionText, questionImage, questionAnswer} = req.body;
+        const {quizId, questionNo, questionText, questionImage, questionAnswer, quizStart, quizEnd} = req.body;
         console.log(req.body);
 
         result = await pool.query(
@@ -308,6 +308,26 @@ async function getAllQuestionByQuizId(req, res){
     }
 }
 
+async function storeScore(req, res){
+    try{
+        const {quizId, studentId, scoreResult} = req.body;
+
+        //const storeIsScored = await pool.query(`SELECT * FROM score WHERE score`)
+        const result = await pool.query(
+            `INSERT INTO score(quiz_id, student_id, score_result) VALUES($1, $2, $3) RETURNING *`,
+            [quizId, studentId, scoreResult]
+        );
+        //console.log(result);
+        console.log(req.body);
+        res.status(200).json({message: "score stored successfully"});
+    }catch(err){
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    }
+}
+
 module.exports = {
     createMatkul,
     createCourse,
@@ -323,5 +343,6 @@ module.exports = {
     createQuiz,
     createQuestion,
     getAllQuizByChapterId,
-    getAllQuestionByQuizId
+    getAllQuestionByQuizId,
+    storeScore
 }

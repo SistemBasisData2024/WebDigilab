@@ -27,7 +27,7 @@ function App() {
           <Route path="/GetContact" element={<GetContact />} />
 
           <Route path="/Quiz/:quizId" element={<Quiz/>} />
-          <Route path="/Quizzes/:chapterId" element={<Quizzes/>} />
+          <Route path="/Quizzes" element={<Quizzes/>} />
           <Route path="/CreateQuiz" element={<QuizAdd/>} />
         </Routes>
       </BrowserRouter>
