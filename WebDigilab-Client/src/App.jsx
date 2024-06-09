@@ -6,6 +6,7 @@ import Courses from './Courses';
 import Course from './Course';
 import CoursesEdit from './CoursesEdit';
 import AccountSetting from './AccountSetting';
+import GetContact from './GetContact';
 
 function App() {
   
@@ -20,6 +21,8 @@ function App() {
           <Route path="/CoursesEdit" element={<CoursesEdit />} />
           <Route path="/Course/:courseId" element={<Course />} />
           <Route path="/AccountSetting" element={<AccountSetting />} />
+          <Route path="/GetContact" element={<GetContact />} />
+
         </Routes>
       </BrowserRouter>
     </>
