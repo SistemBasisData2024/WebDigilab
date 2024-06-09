@@ -30,6 +30,10 @@ function Quiz() {
                 } else {
                     const response = await axios.get(`http://localhost:4000/getQuestions/${quizId}`);
                     setQuestions(response.data);
+                    //console.log(response.data.length);
+                    if (response.data.length == 0) {
+                        navigate('/Quizzes');
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching questions:', error);

@@ -137,7 +137,7 @@ function Quizzes() {
                                     </div>
                                     <div 
                                         className="w-1/2 h-full bg-cover bg-center rounded-r-xl"
-                                        style={{ backgroundImage: `url(${quiz.quiz_image ? quiz.quiz_image : '/default-quiz-image.jpg'})` }}
+                                        style={{ backgroundImage: `url(${quiz.quiz_image && quiz.quiz_image !== 'null' && quiz.quiz_image !== ''  ? quiz.quiz_image : '/embedded-system-micro.jpg'})` }}
                                     ></div>
                                 </a>
                             ))
