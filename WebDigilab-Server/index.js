@@ -40,6 +40,7 @@ app.post('/createQuiz', contentRepo.createQuiz);
 app.post('/createQuestion', contentRepo.createQuestion);
 app.get('/getQuizzes/:id',contentRepo.getAllQuizByChapterId);
 app.get('/getQuestions/:id',contentRepo.getAllQuestionByQuizId);
+app.post('/storeScore', contentRepo.storeScore);
 
 
 app.listen(port, () => {

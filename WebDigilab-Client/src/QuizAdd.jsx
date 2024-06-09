@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navigation from './Navigation';
 
@@ -11,12 +11,56 @@ const QuizAdd = () => {
   });
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState({
-    quizId: 0,
     questionNo: '',
     questionText: '',
     questionImage: '',
     questionAnswer: ''
   });
+
+  const [courses, setCourses] = useState([]);
+  const [chapters, setChapters] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState('');
+  const [selectedChapter, setSelectedChapter] = useState('');
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get('http://localhost:4000/getAllCourses');
+        setCourses(response.data);
+      } catch (err) {
+        setError('Error fetching courses');
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+  useEffect(() => {
+    if (selectedCourse) {
+      const fetchChapters = async () => {
+        try {
+          const response = await axios.get(`http://localhost:4000/getAllChapters/${selectedCourse}`);
+          setChapters(response.data);
+        } catch (err) {
+          setError('Error fetching chapters');
+        }
+      };
+
+      fetchChapters();
+    }
+  }, [selectedCourse]);
+
+  const handleCourseChange = (e) => {
+    setSelectedCourse(e.target.value);
+    setSelectedChapter('');
+    setChapters([]);
+  };
+
+  const handleChapterChange = (e) => {
+    setSelectedChapter(e.target.value);
+    setQuizDetails({ ...quizDetails, chapterId: e.target.value });
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,7 +85,6 @@ const QuizAdd = () => {
     };
     setQuestions([...questions, newQuestion]);
     setCurrentQuestion({
-      quizId: 0,
       questionNo: '',
       questionText: '',
       questionImage: '',
@@ -61,6 +104,7 @@ const QuizAdd = () => {
         }
       );
       const { quiz_id } = quizResponse.data.quiz_id;
+      console.log("quizId: "+quiz_id);
 
       for (let question of questions) {
         question.quizId = quiz_id;
@@ -97,15 +141,38 @@ const QuizAdd = () => {
 
           <div className="mt-8 bg-gray-800 rounded-xl p-8 shadow-xl mb-4">
             <div className="form-group mb-4">
-              <label className="block text-gray-300">Chapter ID</label>
-              <input
-                type="text"
-                name="chapterId"
-                value={quizDetails.chapterId}
-                onChange={handleChange}
-                className="w-full bg-gray-700 text-white border border-gray-600 p-2 rounded-lg"
-              />
+              <label className="block text-gray-300">Select Course</label>
+              <select
+                value={selectedCourse}
+                onChange={handleCourseChange}
+                className="w-full p-2 bg-gray-700 border border-gray-600 text-white rounded"
+              >
+                <option value="">Choose a Course</option>
+                {courses.map(course => (
+                  <option key={course.course_id} value={course.course_id}>
+                    {course.course_name}
+                  </option>
+                ))}
+              </select>
             </div>
+
+            <div className="form-group mb-4">
+              <label className="block text-gray-300">Select Chapter</label>
+              <select
+                value={selectedChapter}
+                onChange={handleChapterChange}
+                className="w-full p-2 bg-gray-700 border border-gray-600 text-white rounded"
+                disabled={!selectedCourse}
+              >
+                <option value="">Choose a Chapter</option>
+                {chapters.map(chapter => (
+                  <option key={chapter.chapter_id} value={chapter.chapter_id}>
+                    {chapter.chapter_title}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <div className="form-group mb-4">
               <label className="block text-gray-300">Quiz Title</label>
               <input

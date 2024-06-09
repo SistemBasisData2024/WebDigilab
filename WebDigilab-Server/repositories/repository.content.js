@@ -308,6 +308,26 @@ async function getAllQuestionByQuizId(req, res){
     }
 }
 
+async function storeScore(req, res){
+    try{
+        const {quizId, studentId, scoreResult} = req.body;
+
+        //const storeIsScored = await pool.query(`SELECT * FROM score WHERE score`)
+        const result = await pool.query(
+            `INSERT INTO score(quiz_id, student_id, score_result) VALUES($1, $2, $3) RETURNING *`,
+            [quizId, studentId, scoreResult]
+        );
+        //console.log(result);
+        console.log(req.body);
+        res.status(200).json({message: "score stored successfully"});
+    }catch(err){
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    }
+}
+
 module.exports = {
     createMatkul,
     createCourse,
@@ -323,5 +343,6 @@ module.exports = {
     createQuiz,
     createQuestion,
     getAllQuizByChapterId,
-    getAllQuestionByQuizId
+    getAllQuestionByQuizId,
+    storeScore
 }

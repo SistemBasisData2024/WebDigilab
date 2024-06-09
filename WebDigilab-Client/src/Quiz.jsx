@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 import Navigation from "./Navigation";
@@ -20,6 +20,7 @@ function Quiz() {
     const [submitted, setSubmitted] = useState(false);
     const [score, setScore] = useState(0);
     const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+    const scoreStoredRef = useRef(false); // Using useRef to track if the score has been stored
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -52,8 +53,50 @@ function Quiz() {
         if (currentQuestionIndex < questions.length - 1) {
             setCurrentQuestionIndex(prevIndex => prevIndex + 1);
             setUserAnswer('');
-        } else {
+        }
+    };
+
+    const handleQuizSubmit = () => {
+        const currentQuestion = questions[currentQuestionIndex];
+        if (!currentQuestion || !currentQuestion.question_answer) {
+            alert('Error: No correct answer provided.');
+            return;
+        }
+
+        const isCorrect = userAnswer.trim().toLowerCase() === currentQuestion.question_answer.trim().toLowerCase();
+        setResults(prevResults => [...prevResults, isCorrect]);
+        setScore(prevScore => {
+            const newScore = prevScore + (isCorrect ? 1 : 0);
             setSubmitted(true);
+            if (!scoreStoredRef.current) {
+                scoreStoredRef.current = true;
+                storeQuizScore((newScore) / questions.length * 100);
+            }
+            return newScore;
+        });
+    };
+
+    const storeQuizScore = async (scoreResult) => {
+        try {
+            const studentId = cookies.user.data.praktikan_id;
+            console.log("storeQuizScore called with scoreResult:", scoreResult);
+            await axios.post(
+                'http://localhost:4000/storeScore',
+                {
+                    quizId,
+                    studentId,
+                    scoreResult
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }
+            );
+            alert('Score stored successfully');
+        } catch (error) {
+            console.error('Error storing score:', error);
+            alert('Error storing score');
         }
     };
 
@@ -158,9 +201,21 @@ function Quiz() {
                                     />
                                 </div>
                                 <div className="actions mt-4">
-                                    <button onClick={handleAnswerSubmit} className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
-                                        Next
-                                    </button>
+                                    {currentQuestionIndex < questions.length - 1 ? (
+                                        <button
+                                            onClick={handleAnswerSubmit}
+                                            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+                                        >
+                                            Next
+                                        </button>
+                                    ) : (
+                                        <button
+                                            onClick={handleQuizSubmit}
+                                            className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600"
+                                        >
+                                            Submit
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         ) : (
