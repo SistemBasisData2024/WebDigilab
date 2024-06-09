@@ -22,6 +22,10 @@ Source Code Web Digilab akan dibagi menjadi 2 bagian, yakni program Front End da
 
 ![Entity2Entity](img/Entity2Entity.png)
 
+## Flowchart
+
+![flowchart](img/Flowchart_Web_Digilab.png)
+
 ## Cara Penggunaan
 
 - Download or clone the repository  
