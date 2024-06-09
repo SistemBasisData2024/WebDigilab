@@ -86,3 +86,13 @@ Source Code Web Digilab akan dibagi menjadi 2 bagian, yakni program Front End da
 11. **Account Settings:** Halaman ini berguna untuk pengguna mengedit profile dari akunnya.
 
 ![Account Settings](img/AccountSetting.png)
+
+## Project Meetings
+
+1. Project Meeting 1
+
+![Project Meeting 1](img/Meeting1.jpg)
+
+2. Project meeting 2
+
+![Project Meeting 2](img/meeting2.jpg)
