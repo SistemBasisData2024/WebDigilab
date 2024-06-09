@@ -6,6 +6,9 @@ import Courses from './Courses';
 import Course from './Course';
 import CoursesEdit from './CoursesEdit';
 import AccountSetting from './AccountSetting';
+import Quiz from './Quiz';
+import QuizAdd from './QuizAdd';
+import Quizzes from './Quizzes';
 
 function App() {
   
@@ -20,6 +23,9 @@ function App() {
           <Route path="/CoursesEdit" element={<CoursesEdit />} />
           <Route path="/Course/:courseId" element={<Course />} />
           <Route path="/AccountSetting" element={<AccountSetting />} />
+          <Route path="/Quiz/:quizId" element={<Quiz/>} />
+          <Route path="/Quizzes/:chapterId" element={<Quizzes/>} />
+          <Route path="/CreateQuiz" element={<QuizAdd/>} />
         </Routes>
       </BrowserRouter>
     </>

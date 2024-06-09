@@ -36,6 +36,11 @@ app.put('/editCourse', contentRepo.updateCourse);
 app.delete('/deleteCourse', contentRepo.deleteCourse);
 app.delete('/deleteChapter', contentRepo.deleteChapter);
 app.put('/editChapter', contentRepo.updateChapter);
+app.post('/createQuiz', contentRepo.createQuiz);
+app.post('/createQuestion', contentRepo.createQuestion);
+app.get('/getQuizzes/:id',contentRepo.getAllQuizByChapterId);
+app.get('/getQuestions/:id',contentRepo.getAllQuestionByQuizId);
+
 
 app.listen(port, () => {
     console.log("Server is running and listening on port ", port);
