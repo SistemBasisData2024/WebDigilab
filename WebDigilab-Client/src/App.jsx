@@ -7,6 +7,9 @@ import Course from './Course';
 import CoursesEdit from './CoursesEdit';
 import AccountSetting from './AccountSetting';
 import GetContact from './GetContact';
+import Quiz from './Quiz';
+import QuizAdd from './QuizAdd';
+import Quizzes from './Quizzes';
 
 function App() {
   
@@ -23,6 +26,9 @@ function App() {
           <Route path="/AccountSetting" element={<AccountSetting />} />
           <Route path="/GetContact" element={<GetContact />} />
 
+          <Route path="/Quiz/:quizId" element={<Quiz/>} />
+          <Route path="/Quizzes/:chapterId" element={<Quizzes/>} />
+          <Route path="/CreateQuiz" element={<QuizAdd/>} />
         </Routes>
       </BrowserRouter>
     </>

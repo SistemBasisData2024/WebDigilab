@@ -228,6 +228,86 @@ async function updateChapter(req, res) {
     }
 }
 
+async function createQuiz(req, res) {
+    try{
+        const {chapterId, quizTitle, quizDesc, quizImage} = req.body;
+
+        const result = await pool.query(
+            `INSERT INTO quiz(chapter_id, quiz_title, quiz_desc, quiz_image)
+            VALUES($1, $2, $3, $4) RETURNING quiz_id`,
+            [chapterId, quizTitle, quizDesc, quizImage]
+        );
+
+        const quizId = result.rows[0];
+        res.status(200).json({
+            message: "Quiz created successfully",
+            quiz_id: quizId
+        })
+    }catch(err){
+        console.log(err);
+        res.status(500).json({error: err});
+    }
+}
+
+async function createQuestion(req, res){
+    try{
+        //const quizId = req.params.quizId;
+        const {quizId, questionNo, questionText, questionImage, questionAnswer} = req.body;
+        console.log(req.body);
+
+        result = await pool.query(
+            `INSERT INTO question(quiz_id, question_no, question_text, question_image, question_answer)
+            VALUES($1, $2, $3, $4, $5)`,
+            [quizId, questionNo, questionText, questionImage, questionAnswer]
+        );
+
+        res.status(200).json({
+            message: "Question created successfully",
+            question: result
+        })
+    }catch(err){
+        console.log(err);
+        res.status(500).json({error:err});
+    }
+}
+
+async function getAllQuizByChapterId(req, res){
+    try{
+        const chapterId = req.params.id;
+
+        const result = await pool.query(
+            `SELECT * FROM quiz WHERE chapter_id = $1`,
+            [chapterId]
+        )
+
+        const quizzes = result.rows;
+        res.status(200).json(quizzes);
+    }catch(err){
+        res.status(500).json({
+            error: err
+        });
+    }
+}
+
+async function getAllQuestionByQuizId(req, res){
+    try{
+        const quizId = req.params.id;
+
+        const result = await pool.query(
+            `SELECT * FROM question WHERE quiz_id = $1`,
+            [quizId]
+        );
+
+        const questions = result.rows;
+
+        res.status(200).json(questions);
+    }catch(err){
+        res.status(500).json({
+            error: err
+        });
+    }
+}
+
 module.exports = {
     createMatkul,
     createCourse,
@@ -239,5 +319,9 @@ module.exports = {
     updateCourse,
     deleteCourse,
     deleteChapter,
-    updateChapter
+    updateChapter,
+    createQuiz,
+    createQuestion,
+    getAllQuizByChapterId,
+    getAllQuestionByQuizId
 }
