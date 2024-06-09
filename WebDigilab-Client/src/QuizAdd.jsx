@@ -7,7 +7,9 @@ const QuizAdd = () => {
     chapterId: '',
     quizTitle: '',
     quizDesc: '',
-    quizImage: ''
+    quizImage: '',
+    startTime: '',
+    endTime: ''
   });
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState({
@@ -198,6 +200,27 @@ const QuizAdd = () => {
                 type="text"
                 name="quizImage"
                 value={quizDetails.quizImage}
+                onChange={handleChange}
+                className="w-full bg-gray-700 text-white border border-gray-600 p-2 rounded-lg"
+              />
+            </div>
+
+            <div className="form-group mb-4">
+              <label className="block text-gray-300">Start Time</label>
+              <input
+                type="datetime-local"
+                name="startTime"
+                value={quizDetails.startTime}
+                onChange={handleChange}
+                className="w-full bg-gray-700 text-white border border-gray-600 p-2 rounded-lg"
+              />
+            </div>
+            <div className="form-group mb-4">
+              <label className="block text-gray-300">End Time</label>
+              <input
+                type="datetime-local"
+                name="endTime"
+                value={quizDetails.endTime}
                 onChange={handleChange}
                 className="w-full bg-gray-700 text-white border border-gray-600 p-2 rounded-lg"
               />

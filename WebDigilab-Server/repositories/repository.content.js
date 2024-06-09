@@ -230,12 +230,12 @@ async function updateChapter(req, res) {
 
 async function createQuiz(req, res) {
     try{
-        const {chapterId, quizTitle, quizDesc, quizImage} = req.body;
+        const {chapterId, quizTitle, quizDesc, quizImage, quizStart, quizEnd} = req.body;
 
         const result = await pool.query(
-            `INSERT INTO quiz(chapter_id, quiz_title, quiz_desc, quiz_image)
-            VALUES($1, $2, $3, $4) RETURNING quiz_id`,
-            [chapterId, quizTitle, quizDesc, quizImage]
+            `INSERT INTO quiz(chapter_id, quiz_title, quiz_desc, quiz_image, quiz_start, quiz_end)
+            VALUES($1, $2, $3, $4, $5, $6) RETURNING quiz_id`,
+            [chapterId, quizTitle, quizDesc, quizImage, quizStart, quizEnd]
         );
 
         const quizId = result.rows[0];
@@ -252,7 +252,7 @@ async function createQuiz(req, res) {
 async function createQuestion(req, res){
     try{
         //const quizId = req.params.quizId;
-        const {quizId, questionNo, questionText, questionImage, questionAnswer} = req.body;
+        const {quizId, questionNo, questionText, questionImage, questionAnswer, quizStart, quizEnd} = req.body;
         console.log(req.body);
 
         result = await pool.query(
